@@ -2,25 +2,24 @@ import { Formik } from 'formik';
 import { object, string, number } from 'yup';
 import { ContForm, Input, SubmitButton, Error } from './ContactForm.styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/contactSlice';
-import { nanoid } from 'nanoid';
+import { addContact } from 'redux/operations';
 import { toast } from 'react-toastify';
 import { selectContacts } from 'redux/selectors';
 
 const validationSchema = object({
   name: string().min(4).required(),
-  number: number().min(4).required(),
+  phone: number().min(4).required(),
 });
 
 const ContactForm = () => {
   const dispatch = useDispatch();
   const contacts = useSelector(selectContacts);
 
-  const handleSubmit = ({name, number, id = nanoid()}, { resetForm }) => {
+  const handleSubmit = (values, { resetForm }) => {
 
-    contacts.find(contact => contact.name.toLowerCase() === name.toLowerCase()) ?
-      toast.error(`${name} is already in contacts`) :
-      dispatch(addContact({name, number, id}));
+    contacts.find(contact => contact.name.toLowerCase() === values.name.toLowerCase()) ?
+      toast.error(`${values.name} is already in contacts`) :
+      dispatch(addContact(values));
 
     resetForm();
   };
@@ -29,7 +28,7 @@ const ContactForm = () => {
     <Formik
       initialValues={{
         name: "",
-        number: ""
+        phone: ""
       }}
       onSubmit={handleSubmit}
       validationSchema={validationSchema}
@@ -50,7 +49,7 @@ const ContactForm = () => {
           Number
           <Input
             type="tel"
-            name="number"
+            name="phone"
             pattern="\+?\d{1,4}?[\-.\s]?\(?\d{1,3}?\)?[\-.\s]?\d{1,4}[\-.\s]?\d{1,4}[\-.\s]?\d{1,9}"
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
             required

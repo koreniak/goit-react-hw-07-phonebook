@@ -1,16 +1,16 @@
 import { ContList } from "./ContactList.styled";
-import ContactItem from '../ContactItem';
+import ContactItem from 'components/ContactItem';
 import { useSelector } from 'react-redux';
 import { selectFilteredContacts } from 'redux/selectors';
 
 const ContactList = () => {
   const contacts = useSelector(selectFilteredContacts);
 
-  return <ContList>{contacts.map(({ id, name, number }) =>
+  return <ContList>{contacts.map(({ id, name, phone }) =>
     <li key={id}>
       <ContactItem
         name={name}
-        number={number}
+        number={phone}
         id={id}
       />
     </li>)}
