@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from 'redux/operations';
 import { toast } from 'react-toastify';
 import { selectContacts } from 'redux/selectors';
+import { nanoid } from 'nanoid';
 
 const validationSchema = object({
   name: string().min(4).required(),
@@ -15,11 +16,11 @@ const ContactForm = () => {
   const dispatch = useDispatch();
   const contacts = useSelector(selectContacts);
 
-  const handleSubmit = (values, { resetForm }) => {
+  const handleSubmit = ({name, phone, id = nanoid()}, { resetForm }) => {
 
-    contacts.find(contact => contact.name.toLowerCase() === values.name.toLowerCase()) ?
-      toast.error(`${values.name} is already in contacts`) :
-      dispatch(addContact(values));
+    contacts.find(contact => contact.name.toLowerCase() === name.toLowerCase()) ?
+      toast.error(`${name} is already in contacts`) :
+      dispatch(addContact({name, phone, id}));
 
     resetForm();
   };

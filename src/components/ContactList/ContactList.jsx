@@ -10,7 +10,7 @@ const ContactList = () => {
     <li key={id}>
       <ContactItem
         name={name}
-        number={phone}
+        phone={phone}
         id={id}
       />
     </li>)}

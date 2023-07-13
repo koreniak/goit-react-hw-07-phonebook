@@ -8,3 +8,10 @@ export const Title = styled.h2`
   margin-left: 4px;
   margin-bottom: 8px;
 `;
+
+export const AppContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
